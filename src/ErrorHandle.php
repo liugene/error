@@ -1,10 +1,8 @@
 <?php
 
-namespace linkphp\error\exception;
+namespace linkphp\error;
 
-use linkphp\error\Error;
-
-class Handle
+class ErrorHandle
 {
 
     public function handle(Error $error)

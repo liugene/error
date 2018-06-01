@@ -14,9 +14,6 @@
 
 namespace linkphp\error;
 
-use linkphp\error\exception\Handle;
-
-
 class Error
 {
 
@@ -346,11 +343,11 @@ class Error
             $class = self::$error_handle;
 
             if ($class && is_string($class) && class_exists($class) &&
-                is_subclass_of($class, "\\linkphp\\boot\\exception\\Handle")
+                is_subclass_of($class, "\\linkphp\\error\\ErrorHandle")
             ) {
-                $handle = new $class;
+                $handle = new $class ;
             } else {
-                $handle = new Handle;
+                $handle = new ErrorHandle;
 
             }
         }
