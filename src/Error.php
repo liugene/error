@@ -291,7 +291,11 @@ class Error
         self::$file = $filename;
         self::$message = $msg;
         self::$line = $line;
-        self::getErrorHandle()->handle(self::instance());
+        if(self::$debug){
+            self::getErrorHandle()->handle(self::instance());
+        } else {
+            self::writeErrorLog();
+        }
     }
     /**
      * 致命错误捕获
@@ -315,7 +319,11 @@ class Error
                 self::$class = $trace[0]['class'];
                 self::$function = $trace[0]['function'];
                 self::$type = $trace[0]['type'];
-                self::getErrorHandle()->handle(self::instance());
+                if(self::$debug){
+                    self::getErrorHandle()->handle(self::instance());
+                    break;
+                }
+                self::writeErrorLog();
                 break;
         }
     }
@@ -331,7 +339,11 @@ class Error
         self::$trace = $e->getTraceAsString();
         self::$line = $e->getLine();
         self::$file = $e->getFile();
-        self::getErrorHandle()->handle(self::instance());
+        if(self::$debug){
+            self::getErrorHandle()->handle(self::instance());
+        } else {
+            self::writeErrorLog();
+        }
     }
 
     static private function getErrorHandle()
@@ -353,6 +365,15 @@ class Error
         }
 
         return $handle;
+    }
+
+    static private function writeErrorLog()
+    {
+        $error_info = "run " . self::$error_type . ": \n";
+        $error_info .= "message: " . self::$message . " \n";
+        $error_info .= "file: " . self::$file . " \n";
+        $error_info .= "line: " . self::$line . " \n";
+        app()->get(\linkphp\log\Log::class)->error($error_info);
     }
 
 }
