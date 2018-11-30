@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "link\\error\\": "src"
+      "linkphp\\error\\": "src"
     }
   }
 }
